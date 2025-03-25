@@ -23,7 +23,7 @@
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-md: 0 10px 15px rgba(0,0,0,0.1);
-            --transition: all 0.2s ease;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         * {
@@ -37,6 +37,58 @@
             line-height: 1.6;
             color: var(--dark);
             background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Pulse animation for attention */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Bounce animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Fade in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Slide in from left */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Slide in from right */
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Rotate animation */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Shake animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
         
         .container {
@@ -46,7 +98,7 @@
             padding: 0 1.5rem;
         }
         
-        /* Header */
+        /* Header with animation */
         header {
             background-color: white;
             box-shadow: var(--shadow-sm);
@@ -54,6 +106,12 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            animation: slideInDown 0.5s ease-out;
+        }
+        
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         .header-container {
@@ -70,10 +128,16 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .logo:hover {
+            animation: pulse 1s ease infinite;
         }
         
         .logo-icon {
             font-size: 1.8rem;
+            animation: float 3s ease-in-out infinite;
         }
         
         nav ul {
@@ -119,11 +183,12 @@
             color: var(--dark-gray);
         }
         
-        /* Hero Section */
+        /* Hero Section with animations */
         .hero {
             text-align: center;
             padding: 4rem 0 3rem;
             background: linear-gradient(135deg, #f6f7f9 0%, #eef1f5 100%);
+            overflow: hidden;
         }
         
         .hero h1 {
@@ -132,6 +197,7 @@
             color: var(--dark);
             font-weight: 700;
             line-height: 1.2;
+            animation: fadeIn 0.8s ease-out forwards;
         }
         
         .hero p {
@@ -139,9 +205,11 @@
             color: var(--dark-gray);
             max-width: 700px;
             margin: 0 auto 2rem;
+            animation: fadeIn 1s ease-out 0.2s forwards;
+            opacity: 0;
         }
         
-        /* Main Compressor Tool */
+        /* Main Compressor Tool with animations */
         .compressor-container {
             background-color: white;
             border-radius: var(--border-radius);
@@ -150,10 +218,13 @@
             margin: 2rem auto;
             max-width: 900px;
             transition: var(--transition);
+            animation: fadeIn 1s ease-out 0.4s forwards;
+            opacity: 0;
         }
         
         .compressor-container:hover {
             box-shadow: var(--shadow-md);
+            transform: translateY(-5px);
         }
         
         .section-title {
@@ -162,9 +233,28 @@
             color: var(--dark);
             font-weight: 600;
             text-align: center;
+            position: relative;
         }
         
-        /* Upload Area */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+            animation: stretch 1s ease-out 0.6s forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        
+        @keyframes stretch {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+        
+        /* Upload Area with animations */
         .upload-area {
             border: 2px dashed var(--medium-gray);
             border-radius: var(--border-radius);
@@ -175,22 +265,26 @@
             margin-bottom: 2rem;
             position: relative;
             background-color: var(--light);
+            animation: pulse 2s infinite;
         }
         
         .upload-area:hover {
             border-color: var(--primary);
             background-color: rgba(67, 97, 238, 0.03);
+            animation: none;
         }
         
         .upload-area.active {
             border-color: var(--success);
             background-color: rgba(76, 201, 240, 0.05);
+            animation: none;
         }
         
         .upload-icon {
             font-size: 3.5rem;
             color: var(--primary);
             margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
         }
         
         .upload-text h3 {
@@ -217,6 +311,7 @@
         .browse-btn:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
         }
         
         .file-input {
@@ -231,6 +326,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .file-name {
@@ -242,7 +338,7 @@
             text-overflow: ellipsis;
         }
         
-        /* Controls */
+        /* Controls with animations */
         .controls {
             display: flex;
             flex-direction: column;
@@ -313,9 +409,10 @@
             padding: 0.3rem 0.6rem;
             border-radius: 20px;
             font-size: 0.9rem;
+            transition: var(--transition);
         }
         
-        /* Format Options */
+        /* Format Options with animations */
         .format-options {
             display: flex;
             gap: 1rem;
@@ -337,19 +434,21 @@
         .format-option:hover {
             border-color: var(--primary);
             color: var(--primary);
+            transform: translateY(-3px);
         }
         
         .format-option.selected {
             background-color: var(--primary);
             color: white;
             border-color: var(--primary);
+            animation: pulse 0.5s ease;
         }
         
         .format-icon {
             font-size: 1.1rem;
         }
         
-        /* Buttons */
+        /* Buttons with animations */
         .btn {
             padding: 0.9rem 1.8rem;
             border: none;
@@ -362,6 +461,37 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
         }
         
         .btn:hover {
@@ -407,7 +537,7 @@
             flex-wrap: wrap;
         }
         
-        /* Results Section */
+        /* Results Section with animations */
         .results {
             display: none;
             margin-top: 2rem;
@@ -431,6 +561,19 @@
             background-color: white;
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .result-box:nth-child(1) {
+            animation: slideInLeft 0.5s ease-out 0.2s forwards;
+        }
+        
+        .result-box:nth-child(2) {
+            animation: slideInLeft 0.5s ease-out 0.4s forwards;
+        }
+        
+        .result-box:nth-child(3) {
+            animation: slideInLeft 0.5s ease-out 0.6s forwards;
         }
         
         .result-box:hover {
@@ -462,7 +605,7 @@
             color: var(--success);
         }
         
-        /* Image Previews */
+        /* Image Previews with animations */
         .image-preview-container {
             display: flex;
             flex-wrap: wrap;
@@ -473,6 +616,15 @@
         .image-preview {
             flex: 1;
             min-width: 300px;
+            opacity: 0;
+        }
+        
+        .image-preview:nth-child(1) {
+            animation: slideInLeft 0.6s ease-out 0.8s forwards;
+        }
+        
+        .image-preview:nth-child(2) {
+            animation: slideInRight 0.6s ease-out 1s forwards;
         }
         
         .image-preview img {
@@ -503,9 +655,15 @@
             font-size: 1.1rem;
         }
         
-        /* Download Button */
+        /* Download Button with animation */
         .download-btn {
             margin-top: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 1.2s forwards;
+        }
+        
+        .download-btn:hover {
+            animation: pulse 1s infinite;
         }
         
         /* Loading Spinner */
@@ -520,7 +678,7 @@
             animation: spin 1s ease-in-out infinite;
         }
         
-        /* Ad Container */
+        /* Ad Container with animation */
         .ad-container {
             margin: 3rem 0;
             padding: 1.5rem;
@@ -532,6 +690,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1.4s forwards;
+        }
+        
+        .ad-container:hover {
+            animation: pulse 2s infinite;
         }
         
         .ad-label {
@@ -542,7 +706,7 @@
             letter-spacing: 1px;
         }
         
-        /* Features Section */
+        /* Features Section with animations */
         .features {
             padding: 3rem 0;
         }
@@ -560,6 +724,19 @@
             padding: 2rem;
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .feature-card:nth-child(1) {
+            animation: slideInLeft 0.6s ease-out 0.2s forwards;
+        }
+        
+        .feature-card:nth-child(2) {
+            animation: fadeIn 0.6s ease-out 0.4s forwards;
+        }
+        
+        .feature-card:nth-child(3) {
+            animation: slideInRight 0.6s ease-out 0.6s forwards;
         }
         
         .feature-card:hover {
@@ -571,6 +748,7 @@
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
         }
         
         .feature-title {
@@ -585,7 +763,7 @@
             font-size: 0.95rem;
         }
         
-        /* Footer */
+        /* Footer with animations */
         footer {
             background-color: var(--dark);
             color: white;
@@ -636,6 +814,7 @@
         .social-link:hover {
             background-color: var(--primary);
             transform: translateY(-3px);
+            animation: bounce 0.5s;
         }
         
         .footer-heading {
@@ -664,6 +843,7 @@
         
         .footer-link a:hover {
             color: white;
+            transform: translateX(5px);
         }
         
         .footer-link-icon {
@@ -676,16 +856,6 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: var(--medium-gray);
             font-size: 0.9rem;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
         
         /* Responsive Design */
@@ -728,6 +898,10 @@
             
             .result-box, .image-preview {
                 min-width: 100%;
+            }
+            
+            .feature-card {
+                animation: fadeIn 0.6s ease-out forwards !important;
             }
         }
         
@@ -1064,6 +1238,11 @@
                 formatOptions.forEach(opt => opt.classList.remove('selected'));
                 option.classList.add('selected');
                 selectedFormat = option.dataset.format;
+                
+                // Add animation when selecting format
+                option.style.animation = 'none';
+                void option.offsetWidth; // Trigger reflow
+                option.style.animation = 'pulse 0.5s ease';
             });
         });
         
@@ -1076,6 +1255,10 @@
             // Check if file is an image
             if (!file.type.match('image.*')) {
                 alert('Please select an image file (JPG, PNG, WEBP)');
+                // Add shake animation to indicate error
+                uploadArea.style.animation = 'none';
+                void uploadArea.offsetWidth; // Trigger reflow
+                uploadArea.style.animation = 'shake 0.5s ease';
                 return;
             }
             
@@ -1084,6 +1267,12 @@
             fileInfo.style.display = 'flex';
             compressBtn.classList.remove('btn-disabled');
             compressBtn.disabled = false;
+            
+            // Add pulse animation to indicate success
+            compressBtn.style.animation = 'pulse 1s ease';
+            setTimeout(() => {
+                compressBtn.style.animation = '';
+            }, 1000);
             
             // Display preview of original image
             const reader = new FileReader();
@@ -1101,6 +1290,12 @@
             const value = compressionLevel.value;
             compressionValue.textContent = value;
             compressionDisplay.textContent = `${value}%`;
+            
+            // Add bounce animation to value display
+            compressionDisplay.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                compressionDisplay.style.transform = 'scale(1)';
+            }, 200);
         }
         
         function compressImage() {
@@ -1128,21 +1323,42 @@
                     compressedImageUrl = e.target.result;
                     compressedPreview.src = compressedImageUrl;
                     
-                    // Update results
-                    compressedSize.textContent = `${compressedSizeKB} KB`;
-                    sizeReduction.textContent = `${reduction}%`;
+                    // Update results with animations
+                    animateValue(originalSize, 0, originalSizeKB, 1000);
+                    animateValue(compressedSize, 0, compressedSizeKB, 1000);
+                    animateValue(sizeReduction, 0, reduction, 1000);
                     
-                    // Show results
+                    // Show results with animation
                     resultsSection.style.display = 'block';
                     
                     // Hide spinner
                     loadingSpinner.style.display = 'none';
                     compressBtn.innerHTML = '<span>🔽</span> Compress Image';
                     compressBtn.disabled = false;
+                    
+                    // Add celebration animation to download button
+                    setTimeout(() => {
+                        downloadBtn.style.animation = 'bounce 1s ease 2';
+                    }, 500);
                 };
                 reader.readAsDataURL(selectedFile);
                 
             }, 1500);
+        }
+        
+        // Helper function to animate numeric values
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = (progress * (end - start) + start).toFixed(2);
+                element.textContent = `${value}${element === sizeReduction ? '%' : ' KB'}`;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
         }
         
         function resetTool() {
@@ -1158,10 +1374,15 @@
             compressionLevel.value = 70;
             updateCompressionValue();
             
-            // Reset format selection
+            // Reset format selection with animation
             formatOptions.forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('.format-option[data-format="original"]').classList.add('selected');
+            const originalFormat = document.querySelector('.format-option[data-format="original"]');
+            originalFormat.classList.add('selected');
+            originalFormat.style.animation = 'pulse 0.5s ease';
             selectedFormat = 'original';
+            
+            // Add shake animation to reset button
+            resetBtn.style.animation = 'shake 0.5s ease';
         }
         
         function downloadImage() {
@@ -1183,10 +1404,26 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            
+            // Add confirmation animation
+            downloadBtn.innerHTML = '<span>✔️</span> Download Complete!';
+            setTimeout(() => {
+                downloadBtn.innerHTML = '<span>💾</span> Download Compressed Image';
+            }, 2000);
         }
         
         // Initialize
         updateCompressionValue();
+        
+        // Add animation to ad container on hover
+        document.querySelectorAll('.ad-container').forEach(ad => {
+            ad.addEventListener('mouseenter', () => {
+                ad.style.animation = 'pulse 2s infinite';
+            });
+            ad.addEventListener('mouseleave', () => {
+                ad.style.animation = '';
+            });
+        });
     </script>
 </body>
 </html>
